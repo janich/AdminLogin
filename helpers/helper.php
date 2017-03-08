@@ -62,13 +62,16 @@ class AdminLoginHelper
 
         foreach ($matches as $match)
         {
-            $parts = (array) explode('=', $match);
-            $id = (int) end($parts);
+			if ($match)
+			{
+				$parts = (array) explode('=', $match);
+				$id = (int) end($parts);
 
-            if ($id) 
-            {
-                $head[] = 'addLoginButton(' . $id . ', \'' . $this->generateLoginLink($id, $key) . '\');';
-            }
+				if ($id) 
+				{
+					$head[] = 'addLoginButton(' . $id . ', \'' . $this->generateLoginLink($id, $key) . '\');';
+				}
+			}
         }
 
         $head[] = '});';
