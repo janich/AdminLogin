@@ -43,6 +43,13 @@
 					<option value="0">JNO</option>
 				</field>
 				
+				<field
+						name="redirect"
+						type="menuitem"
+						default=""
+						label="PLG_SYSTEM_ADMINLOGIN_FIELD_REDIRECT_LBL"
+						description="PLG_SYSTEM_ADMINLOGIN_FIELD_REDIRECT_DESC" />
+						
 			</fieldset>
 		</fields>
 	</config>

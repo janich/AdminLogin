@@ -27,6 +27,7 @@ class PlgSystemAdminlogin extends JPlugin
 		$this->helper   = new AdminLoginHelper();
         $this->debug	= $this->params->get('debug', 0);
         $this->key	    = $this->params->get('key', md5(mt_rand(0, 99999)));
+		$this->redirect	= $this->params->get('redirect', 0);
 	}
 
 
@@ -123,7 +124,9 @@ class PlgSystemAdminlogin extends JPlugin
                 throw new Exception('PLG_SYSTEM_ADMINLOGIN_ERR_UNKNOWN');
             }
 
-            $app->redirect('index.php', JText::sprintf('PLG_SYSTEM_ADMINLOGIN_SUCCESS', $user->username));
+			$url = 'index.php' . ($this->redirect ? '?Itemid='. (int) $this->redirect : '');
+			
+            $app->redirect($url, JText::sprintf('PLG_SYSTEM_ADMINLOGIN_SUCCESS', $user->username));
         }
         catch (Exception $e)
         {
