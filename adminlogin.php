@@ -58,12 +58,17 @@ class PlgSystemAdminlogin extends JPlugin
 			return true;
 		}
 
-		if (!($app->input->get('option', '', 'cmd') == 'com_users' && $app->input->get('view', '', 'cmd') == 'users'))
+		if ($app->input->get('option', '', 'cmd') == 'com_users' && $app->input->get('view', '', 'cmd') == 'users')
         {
-            return true;
+	        $this->helper->addJoomlaLoginButtons($this->key);
         }
 
-        $this->helper->addLoginButtons($this->key);
+		if ($app->input->get('option', '', 'cmd') == 'com_easysocial' && $app->input->get('view', '', 'cmd') == 'users')
+		{
+			$this->helper->addEasysocialLoginButtons($this->key);
+		}
+
+        return true;
 	}
     
     

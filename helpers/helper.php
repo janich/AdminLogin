@@ -43,7 +43,7 @@ class AdminLoginHelper
 	}
 
 
-    public function addLoginButtons($key = '')
+    public function addJoomlaLoginButtons($key = '')
     {
         $html = $this->app->getBody();
 
@@ -80,6 +80,47 @@ class AdminLoginHelper
         $html = str_ireplace('</head>', implode("\n", $head) . '</head>', $html);
 
         $this->app->setBody($html);
+    }
+
+
+    public function addEasysocialLoginButtons($key = '')
+    {
+	    $html = $this->app->getBody();
+
+	    if (preg_match_all('/view=users&layout=form&id=[0-9]*/', $html, $matches)) {
+		    $matches = $matches[0];
+	    }
+
+	    $head   = array();
+	    $head[] = '<style type="text/css">.btn-adminlogin { float: right; background: #46a546; padding: 2px 5px 2px 6px; border-radius: 2px; font-weight: normal; color: white; font-size: 12px; box-sizing: content-box !important;} .btn-adminlogin:hover { background: #555; text-decoration: none; color: white; }</style>';
+	    $head[] = '<script type="text/javascript">';
+	    $head[] = 'function addLoginButton(id, link) {';
+	    $head[] = 'jQuery(\'#usersTable a[href$="view=users&layout=form&id=\'+ id +\'"]\').parent().append(\'<a class="icon-shuffle btn-adminlogin" title="'. JText::_('PLG_SYSTEM_ADMINLOGIN_BTN_TITLE') .'" href="\'+ link +\'" target="_blank"> </a>\');';
+	    $head[] = '}';
+
+	    $head[] = 'jQuery(document).ready(function() {';
+
+	    foreach ($matches as $match)
+	    {
+		    if ($match)
+		    {
+			    $parts = (array) explode('=', $match);
+			    $id = (int) end($parts);
+
+			    if ($id)
+			    {
+			    	// Todo - look up joomla id on this user
+				    $head[] = 'addLoginButton(' . $id . ', \'' . $this->generateLoginLink($id, $key) . '\');';
+			    }
+		    }
+	    }
+
+	    $head[] = '});';
+	    $head[] = '</script>';
+
+	    $html = str_ireplace('</head>', implode("\n", $head) . '</head>', $html);
+
+	    $this->app->setBody($html);
     }
 
 
